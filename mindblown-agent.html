@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindBlown — Agente de Contenido IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg2: #141414;
+    --bg3: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e8e4dc;
+    --muted: #6b6560;
+    --accent: #c8390a;
+    --green: #1a9c5a;
+    --amber: #c8860a;
+    --mono: 'Space Mono', monospace;
+    --serif: 'Source Serif 4', Georgia, serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  /* TOP BAR */
+  .topbar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-logo {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+  .topbar-logo span { color: var(--accent); }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+  }
+  .badge.green { background: #0d2a1a; color: #1a9c5a; border: 1px solid #1a4d2e; }
+  .badge.amber { background: #2a1e0a; color: var(--amber); border: 1px solid #4a3210; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr 320px;
+    height: calc(100vh - 49px);
+  }
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 1.25rem 0;
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 0 1rem 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+  .sidebar-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-top: 0.5rem;
+  }
+  .config-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .config-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  select, input[type=number], input[type=text] {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 2px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:focus, input:focus { border-color: var(--accent); }
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .toggle-label { font-size: 0.65rem; color: var(--text); }
+  .toggle {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    cursor: pointer;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle-track {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--border);
+    border-radius: 9px;
+    transition: background 0.2s;
+  }
+  .toggle input:checked + .toggle-track { background: var(--green); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: var(--text);
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked ~ .toggle-knob { transform: translateX(14px); }
+  .run-btn {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .run-btn:hover:not(:disabled) { background: #a82f08; }
+  .run-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  /* MAIN AREA */
+  .main {
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  /* TERMINAL LOG */
+  .terminal {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .terminal-bar {
+    background: var(--bg2);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .terminal-dots { display: flex; gap: 5px; }
+  .terminal-dots span { width: 8px; height: 8px; border-radius: 50%; }
+  .td-red { background: #e24b4a; }
+  .td-amber { background: var(--amber); }
+  .td-green { background: var(--green); }
+  .terminal-body {
+    padding: 1rem;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    min-height: 160px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .log-line { display: flex; gap: 0.75rem; }
+  .log-time { color: var(--muted); min-width: 55px; }
+  .log-ok { color: var(--green); }
+  .log-warn { color: var(--amber); }
+  .log-err { color: #e24b4a; }
+  .log-info { color: #378add; }
+  .log-default { color: var(--text); }
+  .log-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 13px;
+    background: var(--accent);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  /* ARTICLE OUTPUT */
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: var(--border); color: var(--text); }
+  .article-output {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .ao-toolbar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .ao-tab {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .ao-tab.active { background: var(--accent); color: white; }
+  .ao-tab:hover:not(.active) { background: var(--border); color: var(--text); }
+  .ao-body {
+    padding: 1.25rem;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    min-height: 300px;
+    color: var(--text);
+    white-space: pre-wrap;
+    overflow-y: auto;
+    max-height: 500px;
+  }
+  .ao-body.code-view {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: #9cdcfe;
+    line-height: 1.6;
+  }
+  .placeholder-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    gap: 0.75rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .placeholder-icon { font-size: 2rem; opacity: 0.3; }
+  /* STATS PANEL */
+  .stats-panel {
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    padding: 1.25rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .stat-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  .stat-block-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .stat-sub { font-size: 0.62rem; color: var(--muted); }
+  .stat-bar { background: var(--border); height: 4px; border-radius: 2px; margin-top: 0.75rem; overflow: hidden; }
+  .stat-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 1s ease; }
+  .stat-fill.green { background: var(--green); }
+  .stat-fill.amber { background: var(--amber); }
+  .history-item {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.68rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .history-item:hover .hi-title { color: var(--accent); }
+  .history-item:last-child { border-bottom: none; }
+  .hi-title { color: var(--text); font-size: 0.72rem; line-height: 1.3; }
+  .hi-meta { color: var(--muted); font-size: 0.6rem; }
+  .hi-status { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.6rem; }
+  .hi-status.ok { color: var(--green); }
+  .hi-status.pending { color: var(--amber); }
+  /* PROGRESS BAR */
+  .progress-bar {
+    background: var(--border);
+    height: 3px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    display: none;
+  }
+  .progress-bar.visible { display: block; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #e8582a);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  /* SEO SCORE */
+  .seo-score {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .seo-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .seo-details { font-size: 0.62rem; color: var(--muted); line-height: 1.7; }
+  /* KEYWORD CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .chip {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.6rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip:hover, .chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 200px 1fr; }
+    .stats-panel { display: none; }
+  }
+  @media (max-width: 600px) {
+    .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Mind<span>Blown</span> — Agente IA</div>
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <span class="badge green"><span class="dot"></span>API Activa</span>
+    <span class="badge amber" id="queue-badge"><span class="dot"></span><span id="queue-count">0</span> en cola</span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR CONFIG -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Generación</div>
+      <div class="config-row">
+        <span class="config-label">Categoría</span>
+        <select id="cfg-category">
+          <option value="Ciencia">Ciencia</option>
+          <option value="Espacio">Espacio</option>
+          <option value="Historia">Historia</option>
+          <option value="Naturaleza">Naturaleza</option>
+          <option value="Tecnología">Tecnología</option>
+          <option value="Psicología">Psicología</option>
+          <option value="Aleatoria" selected>Aleatoria ✨</option>
+        </select>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Idioma</span>
+        <select id="cfg-lang">
+          <option value="español" selected>Español</option>
+          <option value="inglés">Inglés</option>
+          <option value="catalán">Catalán</option>
+        </select>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Longitud artículo</span>
+        <select id="cfg-length">
+          <option value="corto">Corto (400 palabras)</option>
+          <option value="medio" selected>Medio (700 palabras)</option>
+          <option value="largo">Largo (1200 palabras)</option>
+        </select>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Nº artículos a generar</span>
+        <input type="number" id="cfg-count" value="1" min="1" max="5">
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">SEO & Formato</div>
+      <div class="toggle-row">
+        <span class="toggle-label">Meta descripción</span>
+        <label class="toggle">
+          <input type="checkbox" id="opt-meta" checked>
+          <div class="toggle-track"></div>
+          <div class="toggle-knob"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Datos curiosos (cajas)</span>
+        <label class="toggle">
+          <input type="checkbox" id="opt-facts" checked>
+          <div class="toggle-track"></div>
+          <div class="toggle-knob"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Citas / blockquotes</span>
+        <label class="toggle">
+          <input type="checkbox" id="opt-quotes" checked>
+          <div class="toggle-track"></div>
+          <div class="toggle-knob"></div>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Palabras clave LSI</span>
+        <label class="toggle">
+          <input type="checkbox" id="opt-lsi" checked>
+          <div class="toggle-track"></div>
+          <div class="toggle-knob"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Tono</div>
+      <div class="config-row">
+        <select id="cfg-tone">
+          <option value="divulgativo y asombrado" selected>Divulgativo y asombrado</option>
+          <option value="científico y riguroso">Científico y riguroso</option>
+          <option value="coloquial y cercano">Coloquial y cercano</option>
+          <option value="storytelling narrativo">Storytelling narrativo</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="padding: 1rem;">
+      <button class="run-btn" id="run-btn" onclick="generateArticle()">
+        ▶ Generar ahora
+      </button>
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- TERMINAL -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dots">
+          <span class="td-red"></span>
+          <span class="td-amber"></span>
+          <span class="td-green"></span>
+        </div>
+        Log del agente
+      </div>
+      <div class="terminal-body" id="terminal">
+        <div class="log-line"><span class="log-time">00:00:00</span><span class="log-ok">✓ Agente MindBlown iniciado — listo para generar contenido</span></div>
+        <div class="log-line"><span class="log-time">00:00:00</span><span class="log-info">ℹ Configura las opciones y pulsa "Generar ahora"</span></div>
+        <div class="log-line"><span class="log-time">00:00:00</span><span class="log-default">_ <span class="log-cursor"></span></span></div>
+      </div>
+    </div>
+
+    <!-- ARTICLE OUTPUT -->
+    <div class="article-output">
+      <div class="ao-toolbar">
+        <span class="ao-tab active" id="tab-preview" onclick="switchTab('preview')">Preview</span>
+        <span class="ao-tab" id="tab-html" onclick="switchTab('html')">HTML</span>
+        <span class="ao-tab" id="tab-meta" onclick="switchTab('meta')">SEO Meta</span>
+        <div style="flex:1;"></div>
+        <button class="copy-btn" onclick="copyOutput()">Copiar</button>
+      </div>
+      <div class="ao-body" id="ao-body">
+        <div class="placeholder-msg">
+          <span class="placeholder-icon">✦</span>
+          El artículo generado aparecerá aquí
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATS PANEL -->
+  <div class="stats-panel">
+    <div class="stat-block-title" style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Panel de stats</div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">Artículos generados</div>
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-sub">Esta sesión</div>
+      <div class="stat-bar"><div class="stat-fill" id="stat-bar-total" style="width:0%"></div></div>
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">Score SEO</div>
+      <div class="seo-score">
+        <div class="seo-circle" id="seo-circle">—</div>
+        <div class="seo-details" id="seo-details">Genera un artículo<br>para ver el análisis</div>
+      </div>
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">Palabras clave detectadas</div>
+      <div class="chips" id="keyword-chips">
+        <span class="chip">curiosidades</span>
+        <span class="chip">ciencia</span>
+        <span class="chip">datos</span>
+        <span class="chip">historia</span>
+        <span class="chip">espacio</span>
+      </div>
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-block-title">Historial</div>
+      <div id="history-list">
+        <div style="font-size:0.65rem;color:var(--muted);">Sin artículos aún</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let articleCount = 0;
+let history = [];
+let currentTab = 'preview';
+let currentArticle = { preview: '', html: '', meta: '' };
+
+function log(msg, type = 'default') {
+  const term = document.getElementById('terminal');
+  const now = new Date();
+  const t = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const classes = { ok: 'log-ok', warn: 'log-warn', err: 'log-err', info: 'log-info', default: 'log-default' };
+  const icons = { ok: '✓', warn: '⚠', err: '✗', info: 'ℹ', default: '›' };
+  // Remove cursor line
+  const cursor = term.querySelector('.log-cursor');
+  if (cursor) cursor.closest('.log-line').remove();
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  line.innerHTML = `<span class="log-time">${t}</span><span class="${classes[type]}">${icons[type]} ${msg}</span>`;
+  term.appendChild(line);
+  // Add cursor
+  const cline = document.createElement('div');
+  cline.className = 'log-line';
+  cline.innerHTML = `<span class="log-time">${t}</span><span class="log-default">_ <span class="log-cursor"></span></span>`;
+  term.appendChild(cline);
+  term.scrollTop = term.scrollHeight;
+}
+
+function setProgress(pct) {
+  const bar = document.getElementById('progress-bar');
+  const fill = document.getElementById('progress-fill');
+  bar.classList.toggle('visible', pct > 0 && pct < 100);
+  fill.style.width = pct + '%';
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  ['preview','html','meta'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+  });
+  const body = document.getElementById('ao-body');
+  if (tab === 'preview') {
+    body.className = 'ao-body';
+    body.innerHTML = currentArticle.preview || '<div class="placeholder-msg"><span class="placeholder-icon">✦</span>El artículo generado aparecerá aquí</div>';
+  } else if (tab === 'html') {
+    body.className = 'ao-body code-view';
+    body.textContent = currentArticle.html || '<!-- Sin contenido aún -->';
+  } else if (tab === 'meta') {
+    body.className = 'ao-body code-view';
+    body.textContent = currentArticle.meta || '# Sin meta datos aún';
+  }
+}
+
+function copyOutput() {
+  const content = currentTab === 'preview'
+    ? document.getElementById('ao-body').innerText
+    : document.getElementById('ao-body').textContent;
+  navigator.clipboard.writeText(content).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 1500);
+  });
+}
+
+async function generateArticle() {
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generando...';
+  setProgress(5);
+
+  const cat = document.getElementById('cfg-category').value;
+  const lang = document.getElementById('cfg-lang').value;
+  const length = document.getElementById('cfg-length').value;
+  const tone = document.getElementById('cfg-tone').value;
+  const wantMeta = document.getElementById('opt-meta').checked;
+  const wantFacts = document.getElementById('opt-facts').checked;
+  const wantQuotes = document.getElementById('opt-quotes').checked;
+
+  const lengthMap = { corto: '400 palabras', medio: '700 palabras', largo: '1200 palabras' };
+  const catFinal = cat === 'Aleatoria' ? ['Ciencia','Espacio','Historia','Naturaleza','Tecnología','Psicología','Biología','Física','Astronomía','Geología'][Math.floor(Math.random()*10)] : cat;
+
+  log(`Iniciando generación — categoría: ${catFinal}`, 'info');
+  setProgress(15);
+  log(`Configuración: ${lengthMap[length]}, tono ${tone}`, 'info');
+  setProgress(25);
+  log('Conectando con Claude API...', 'default');
+
+  const systemPrompt = `Eres el escritor principal de MindBlown, un blog de curiosidades virales en ${lang}. 
+Tu misión es crear artículos que generen asombro genuino y sean perfectos para AdSense.
+
+REGLAS ESTRICTAS:
+- El título DEBE ser una afirmación asombrosa y específica (no genérico)
+- Empieza con un gancho irresistible en el primer párrafo
+- Incluye datos reales y verificables
+- Tono: ${tone}
+- Longitud: ${lengthMap[length]}
+${wantFacts ? '- Incluye una sección "DATO CURIOSO:" en algún momento' : ''}
+${wantQuotes ? '- Incluye al menos una cita o blockquote notable' : ''}
+- Termina con una conclusión que deje al lector queriendo saber más
+
+FORMATO DE RESPUESTA (JSON estricto, sin markdown):
+{
+  "title": "título del artículo",
+  "category": "${catFinal}",
+  "lede": "subtítulo de 1-2 frases que amplía el título",
+  "keywords": ["keyword1","keyword2","keyword3","keyword4","keyword5"],
+  "readTime": "X min lectura",
+  "body_html": "<p>contenido completo en HTML con <h2>, <p>, <blockquote> y <div class='fact-box'> si procede</p>",
+  "meta_description": "150 caracteres para SEO",
+  "meta_keywords": "keywords separadas por comas"
+}`;
+
+  const userPrompt = `Escribe un artículo de curiosidades sobre ${catFinal} para MindBlown. 
+El tema debe ser genuinamente sorprendente, algo que la gente no sepa y quiera compartir inmediatamente.
+Elige tú el tema exacto dentro de la categoría ${catFinal}.`;
+
+  try {
+    log('Enviando prompt al modelo...', 'default');
+    setProgress(40);
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    setProgress(70);
+    log('Respuesta recibida, procesando...', 'ok');
+
+    const data = await response.json();
+    if (!data.content || !data.content[0]) throw new Error('Respuesta vacía');
+
+    let raw = data.content.map(b => b.text || '').join('');
+    raw = raw.replace(/```json\s?/g,'').replace(/```\s?/g,'').trim();
+    const art = JSON.parse(raw);
+
+    setProgress(85);
+    log(`Artículo generado: "${art.title.substring(0,50)}..."`, 'ok');
+
+    if (wantMeta) {
+      log('Analizando SEO...', 'info');
+    }
+
+    // Build preview HTML
+    const previewHtml = `
+      <div style="max-width:640px">
+        <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem">${art.category}</p>
+        <h2 style="font-family:'Source Serif 4',serif;font-size:1.6rem;font-weight:700;line-height:1.2;margin-bottom:0.75rem;color:var(--text)">${art.title}</h2>
+        <p style="font-style:italic;color:var(--muted);margin-bottom:1.25rem;font-size:0.9rem">${art.lede}</p>
+        <div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0.5rem 0;margin-bottom:1.25rem;font-size:0.62rem;color:var(--muted);font-family:var(--mono);letter-spacing:0.1em;text-transform:uppercase">${art.readTime} · ${art.category} · MindBlown</div>
+        ${art.body_html.replace(/<div class=['"]fact-box['"]>/g,'<div style="background:#1a1208;border:1px solid #3a2010;padding:1.25rem;margin:1.25rem 0;border-radius:4px">').replace(/<h3>/g,'<h3 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem">').replace(/<blockquote>/g,'<blockquote style="border-left:3px solid var(--accent);margin:1.25rem 0;padding:0.75rem 1.25rem;background:#1a1208;font-style:italic;color:var(--text)">').replace(/<h2>/g,'<h2 style="font-family:var(--mono);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin:1.5rem 0 0.75rem;border-top:1px solid var(--border);padding-top:1rem">').replace(/<p>/g,'<p style="margin-bottom:1rem;font-size:0.88rem;line-height:1.85;color:#c9c0b4">')}
+      </div>`;
+
+    const htmlExport = `<!-- MindBlown Article Export -->\n<!-- Título: ${art.title} -->\n<!-- Categoría: ${art.category} -->\n\n<article class="mindblown-article">\n  <span class="category-tag">${art.category}</span>\n  <h1 class="article-title">${art.title}</h1>\n  <p class="lede">${art.lede}</p>\n  <div class="article-meta">${art.readTime} · ${art.category}</div>\n${art.body_html}\n</article>`;
+
+    const metaExport = `# SEO Meta — ${art.title}\n\n<title>${art.title} | MindBlown</title>\n<meta name="description" content="${art.meta_description}">\n<meta name="keywords" content="${art.meta_keywords}">\n\n<!-- Open Graph -->\n<meta property="og:title" content="${art.title}">\n<meta property="og:description" content="${art.meta_description}">\n<meta property="og:type" content="article">\n\n<!-- Palabras clave detectadas -->\n${art.keywords.map(k => `• ${k}`).join('\n')}`;
+
+    currentArticle = { preview: previewHtml, html: htmlExport, meta: metaExport };
+    switchTab(currentTab);
+
+    // Update stats
+    articleCount++;
+    document.getElementById('stat-total').textContent = articleCount;
+    document.getElementById('stat-bar-total').style.width = Math.min(articleCount * 20, 100) + '%';
+    document.getElementById('queue-count').textContent = Math.max(0, parseInt(document.getElementById('cfg-count').value) - 1);
+
+    // SEO score (simulated)
+    const score = Math.floor(Math.random() * 15) + 82;
+    document.getElementById('seo-circle').textContent = score;
+    document.getElementById('seo-circle').style.borderColor = score >= 85 ? 'var(--green)' : 'var(--amber)';
+    document.getElementById('seo-circle').style.color = score >= 85 ? 'var(--green)' : 'var(--amber)';
+    document.getElementById('seo-details').innerHTML = `Score: ${score}/100<br>${art.readTime}<br>${art.meta_description.length} chars meta`;
+
+    // Keywords
+    const chipsEl = document.getElementById('keyword-chips');
+    chipsEl.innerHTML = art.keywords.map(k => `<span class="chip active">${k}</span>`).join('');
+
+    // History
+    history.unshift({ title: art.title, cat: art.category, time: new Date().toLocaleTimeString() });
+    const histEl = document.getElementById('history-list');
+    histEl.innerHTML = history.slice(0,5).map(h => `
+      <div class="history-item">
+        <div class="hi-title">${h.title.substring(0,55)}${h.title.length > 55 ? '...' : ''}</div>
+        <div class="hi-meta">${h.cat} · ${h.time}</div>
+        <span class="hi-status ok">● Publicado</span>
+      </div>`).join('');
+
+    setProgress(100);
+    log(`✓ Completado — ${art.keywords.length} keywords, score SEO: ${score}/100`, 'ok');
+    setTimeout(() => setProgress(0), 500);
+
+  } catch(err) {
+    log(`Error: ${err.message}`, 'err');
+    setProgress(0);
+    const body = document.getElementById('ao-body');
+    body.innerHTML = `<div class="placeholder-msg"><span style="color:var(--accent);font-size:1.5rem">✗</span><span style="color:var(--muted)">Error generando contenido. Revisa la consola.</span></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶ Generar ahora';
+  }
+}
+</script>
+</body>
+</html>
