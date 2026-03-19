@@ -736,7 +736,8 @@ Elige tú el tema exacto dentro de la categoría ${catFinal}.`;
     log('Respuesta recibida, procesando...', 'ok');
 
     const data = await response.json();
-    if (!data.content || !data.content[0]) throw new Error('Respuesta vacía');
+   if (!data || data.error) throw new Error(data?.error?.message || 'Error API');
+if (!data.content || !data.content[0]) throw new Error('Respuesta vacía: ' + JSON.stringify(data));
 
     let raw = data.content.map(b => b.text || '').join('');
     raw = raw.replace(/```json\s?/g,'').replace(/```\s?/g,'').trim();
