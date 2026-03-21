@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — MindBlown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208; --paper: #faf7f2; --paper2: #f2ede4;
+    --accent: #c8390a; --muted: #6b5e4e; --border: #d4c9bb;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --display: 'Playfair Display', Georgia, serif;
+    --mono: 'Space Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--serif); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 17px; }
+  .masthead { border-top: 4px solid var(--ink); border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem; display: flex; align-items: center; }
+  .logo { font-family: var(--display); font-size: 1.75rem; font-weight: 900; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .container { max-width: 720px; margin: 3rem auto; padding: 0 1.5rem; }
+  h1 { font-family: var(--display); font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .meta { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  p { margin-bottom: 1.25rem; font-size: 0.95rem; line-height: 1.85; }
+  .form-grid { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  input, textarea {
+    background: var(--paper2); border: 1px solid var(--border);
+    padding: 0.75rem 1rem; font-family: var(--serif); font-size: 0.95rem;
+    color: var(--ink); outline: none; transition: border-color 0.2s;
+    border-radius: 2px; width: 100%;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  textarea { min-height: 160px; resize: vertical; }
+  .submit-btn {
+    background: var(--accent); color: white; border: none;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.9rem 2rem; cursor: pointer;
+    transition: background 0.2s; border-radius: 2px; align-self: flex-start;
+  }
+  .submit-btn:hover { background: #a82f08; }
+  .info-block { background: var(--paper2); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin-top: 2.5rem; }
+  .info-block h2 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .info-block p { margin: 0; font-size: 0.88rem; color: var(--muted); }
+  .success { display: none; background: #e8f5e9; border: 1px solid #a5d6a7; padding: 1rem 1.5rem; border-radius: 2px; font-family: var(--mono); font-size: 0.72rem; color: #2e7d32; letter-spacing: 0.05em; }
+  footer { border-top: 2px solid var(--ink); padding: 1.5rem; text-align: center; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); margin-top: 4rem; }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <a href="/" class="logo">Mind<span>Blown</span></a>
+</header>
+<div class="container">
+  <h1>Contacto</h1>
+  <div class="meta">Estamos aquí para escucharte</div>
+
+  <p>¿Tienes una curiosidad que crees que deberíamos publicar? ¿Una corrección sobre alguno de nuestros artículos? ¿Quieres colaborar con MindBlown? Escríbenos y te respondemos en menos de 48 horas.</p>
+
+  <div id="success" class="success">✓ Mensaje enviado correctamente. Te responderemos pronto.</div>
+
+  <form class="form-grid" onsubmit="handleSubmit(event)">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="tu@email.com" required>
+    </div>
+    <div class="form-group">
+      <label for="asunto">Asunto</label>
+      <input type="text" id="asunto" placeholder="¿De qué se trata?">
+    </div>
+    <div class="form-group">
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" placeholder="Cuéntanos..." required></textarea>
+    </div>
+    <button type="submit" class="submit-btn">Enviar mensaje</button>
+  </form>
+
+  <div class="info-block">
+    <h2>Sobre MindBlown</h2>
+    <p>MindBlown es un proyecto editorial independiente dedicado a divulgar las curiosidades más sorprendentes de la ciencia, la historia y el universo. Publicamos nuevos artículos cada semana.</p>
+  </div>
+</div>
+<footer>© 2026 MindBlown · <a href="/privacidad.html" style="color:inherit">Política de privacidad</a></footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('success').style.display = 'block';
+  e.target.reset();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
