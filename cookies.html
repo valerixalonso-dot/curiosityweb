@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Cookies — MindBlown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1a1208;--paper:#faf7f2;--paper2:#f2ede4;--accent:#c8390a;--muted:#6b5e4e;--border:#d4c9bb;--serif:'Source Serif 4',Georgia,serif;--display:'Playfair Display',Georgia,serif;--mono:'Space Mono',monospace; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--serif);background:var(--paper);color:var(--ink);line-height:1.7;font-size:17px}
+  .masthead{border-top:4px solid var(--ink);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center}
+  .logo{font-family:var(--display);font-size:1.75rem;font-weight:900;color:var(--ink);text-decoration:none}
+  .logo span{color:var(--accent)}
+  .container{max-width:720px;margin:3rem auto;padding:0 1.5rem}
+  h1{font-family:var(--display);font-size:2.5rem;font-weight:900;margin-bottom:.5rem}
+  .meta{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--display);font-size:1.3rem;font-weight:700;margin:2rem 0 .75rem}
+  p{margin-bottom:1.25rem;font-size:.95rem;line-height:1.85}
+  table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:.85rem}
+  th{background:var(--paper2);padding:.75rem 1rem;text-align:left;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border)}
+  td{padding:.75rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--paper);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:999;font-size:.82rem;font-family:var(--mono)}
+  .cookie-banner.hidden{display:none}
+  .cookie-btn{background:var(--accent);color:white;border:none;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1.25rem;cursor:pointer;border-radius:2px;white-space:nowrap}
+  .cookie-btn.secondary{background:transparent;border:1px solid #6b5e4e;color:#c9c0b4}
+  a{color:var(--accent)}
+  footer{border-top:2px solid var(--ink);padding:1.5rem;text-align:center;font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:4rem}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <a href="/" class="logo">Mind<span>Blown</span></a>
+</header>
+
+<div class="cookie-banner" id="cookieBanner">
+  <span>Usamos cookies propias y de terceros para mejorar tu experiencia y mostrar publicidad personalizada. <a href="/cookies.html" style="color:#e8a090">Más información</a></span>
+  <div style="display:flex;gap:.5rem;flex-shrink:0">
+    <button class="cookie-btn secondary" onclick="rejectCookies()">Solo necesarias</button>
+    <button class="cookie-btn" onclick="acceptCookies()">Aceptar todas</button>
+  </div>
+</div>
+
+<div class="container">
+  <h1>Política de Cookies</h1>
+  <div class="meta">Última actualización: Marzo 2026</div>
+
+  <p>Este sitio web utiliza cookies para mejorar tu experiencia de navegación, analizar el tráfico y mostrar publicidad relevante. A continuación te explicamos qué cookies utilizamos y para qué.</p>
+
+  <h2>¿Qué son las cookies?</h2>
+  <p>Las cookies son pequeños archivos de texto que los sitios web almacenan en tu dispositivo cuando los visitas. Permiten que el sitio recuerde tus preferencias y ofrezcan una experiencia más personalizada.</p>
+
+  <h2>Tipos de cookies que utilizamos</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Nombre</th>
+        <th>Finalidad</th>
+        <th>Duración</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Necesaria</td>
+        <td>cookie_consent</td>
+        <td>Recuerda tu elección sobre el uso de cookies</td>
+        <td>1 año</td>
+      </tr>
+      <tr>
+        <td>Analítica</td>
+        <td>_ga, _gid</td>
+        <td>Google Analytics — estadísticas de visitas anónimas</td>
+        <td>2 años / 24h</td>
+      </tr>
+      <tr>
+        <td>Publicidad</td>
+        <td>IDE, DSID</td>
+        <td>Google AdSense — publicidad personalizada</td>
+        <td>13 meses</td>
+      </tr>
+      <tr>
+        <td>Publicidad</td>
+        <td>NID</td>
+        <td>Google — preferencias de anuncios</td>
+        <td>6 meses</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Cookies de terceros</h2>
+  <p>Utilizamos Google AdSense para mostrar anuncios. Google puede instalar sus propias cookies para personalizar los anuncios según tus intereses. Puedes consultar la política de privacidad de Google en <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.</p>
+  <p>Puedes desactivar los anuncios personalizados de Google en <a href="https://adssettings.google.com" target="_blank">adssettings.google.com</a>.</p>
+
+  <h2>Cómo gestionar las cookies</h2>
+  <p>Puedes controlar y eliminar las cookies desde la configuración de tu navegador:</p>
+  <p><a href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a> · <a href="https://support.mozilla.org/es/kb/cookies-informacion-que-los-sitios-web-guardan-en-" target="_blank">Mozilla Firefox</a> · <a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank">Safari</a> · <a href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a></p>
+
+  <h2>Más información</h2>
+  <p>Para cualquier duda sobre nuestra política de cookies puedes consultarnos a través de la <a href="/contacto.html">página de contacto</a>. También puedes consultar nuestra <a href="/privacidad.html">Política de Privacidad</a>.</p>
+</div>
+
+<footer>© 2026 MindBlown · <a href="/privacidad.html" style="color:inherit">Privacidad</a> · <a href="/contacto.html" style="color:inherit">Contacto</a></footer>
+
+<script>
+  if(localStorage.getItem('cookieConsent')) document.getElementById('cookieBanner').classList.add('hidden');
+  function acceptCookies(){ localStorage.setItem('cookieConsent','all'); document.getElementById('cookieBanner').classList.add('hidden'); }
+  function rejectCookies(){ localStorage.setItem('cookieConsent','necessary'); document.getElementById('cookieBanner').classList.add('hidden'); }
+</script>
+</body>
+</html>
