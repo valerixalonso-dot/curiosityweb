@@ -711,6 +711,66 @@
 
     <!-- ARTICLE CARDS -->
     <div class="article-grid">
+       <div class="article-card" data-num="09" onclick="openArticle('art_flamencos')">
+        <span class="category-tag">Naturaleza</span>
+        <h3 class="article-title">Los flamencos no son rosas por naturaleza — nacen blancos y se tiñen con lo que comen</h3>
+        <p class="article-excerpt">Sin carotenoides en su dieta, un flamenco adulto se volvería completamente blanco en pocos meses.</p>
+        <div class="article-meta">5 min lectura · Naturaleza</div>
+      </div>
+      <div class="article-card" data-num="10" onclick="openArticle('art_venus')">
+        <span class="category-tag">Espacio</span>
+        <h3 class="article-title">Un día en Venus dura más que un año en Venus — y además gira al revés</h3>
+        <p class="article-excerpt">Venus tarda 243 días terrestres en rotar sobre sí mismo pero solo 225 en orbitar el Sol.</p>
+        <div class="article-meta">5 min lectura · Astronomía</div>
+      </div>
+      <div class="article-card" data-num="11" onclick="openArticle('art_hormigas')">
+        <span class="category-tag">Naturaleza</span>
+        <h3 class="article-title">Las hormigas llevan 130 millones de años practicando la agricultura — 65 millones antes que los humanos</h3>
+        <p class="article-excerpt">Cultivan hongos, los abonan, los riegan y los protegen de plagas con antibióticos naturales.</p>
+        <div class="article-meta">6 min lectura · Naturaleza</div>
+      </div>
+      <div class="article-card" data-num="12" onclick="openArticle('art_zombie')">
+        <span class="category-tag">Biología</span>
+        <h3 class="article-title">Existe un hongo que infecta hormigas, controla su cerebro y las convierte en zombis para reproducirse</h3>
+        <p class="article-excerpt">Ophiocordyceps unilateralis manipula el sistema nervioso de su huésped con una precisión quirúrgica.</p>
+        <div class="article-meta">6 min lectura · Biología</div>
+      </div>
+      <div class="article-card" data-num="13" onclick="openArticle('art_agua')">
+        <span class="category-tag">Física</span>
+        <h3 class="article-title">El agua caliente se congela más rápido que el agua fría — y nadie sabe exactamente por qué</h3>
+        <p class="article-excerpt">El efecto Mpemba lleva desconcertando a los científicos desde que Aristóteles lo describió hace 2.300 años.</p>
+        <div class="article-meta">5 min lectura · Física</div>
+      </div>
+      <div class="article-card" data-num="14" onclick="openArticle('art_cocodrilos')">
+        <span class="category-tag">Naturaleza</span>
+        <h3 class="article-title">Los cocodrilos son prácticamente idénticos a como eran hace 200 millones de años — sobrevivieron a los dinosaurios</h3>
+        <p class="article-excerpt">Mientras el 75% de las especies se extinguía, los cocodrilos apenas cambiaron una escama.</p>
+        <div class="article-meta">5 min lectura · Naturaleza</div>
+      </div>
+      <div class="article-card" data-num="15" onclick="openArticle('art_adn')">
+        <span class="category-tag">Biología</span>
+        <h3 class="article-title">Tu ADN es un 60% idéntico al de un plátano — y un 98,7% al de un chimpancé</h3>
+        <p class="article-excerpt">Los genes básicos para la vida celular son tan antiguos que los compartimos con casi cualquier ser vivo.</p>
+        <div class="article-meta">5 min lectura · Biología</div>
+      </div>
+      <div class="article-card" data-num="16" onclick="openArticle('art_muralla')">
+        <span class="category-tag">Historia</span>
+        <h3 class="article-title">La Gran Muralla China no se ve desde el espacio — es un mito que llevan décadas repitiendo en los libros</h3>
+        <p class="article-excerpt">Los propios astronautas chinos lo confirmaron: desde la órbita es imposible distinguirla a simple vista.</p>
+        <div class="article-meta">4 min lectura · Historia</div>
+      </div>
+      <div class="article-card" data-num="17" onclick="openArticle('art_idioma')">
+        <span class="category-tag">Historia</span>
+        <h3 class="article-title">El idioma más antiguo del mundo que todavía se habla tiene más de 5.000 años de historia continua</h3>
+        <p class="article-excerpt">El tamil se habla hoy prácticamente igual que en inscripciones del año 3.000 a.C. — una continuidad sin igual.</p>
+        <div class="article-meta">6 min lectura · Historia</div>
+      </div>
+      <div class="article-card" data-num="18" onclick="openArticle('art_camaron')">
+        <span class="category-tag">Naturaleza</span>
+        <h3 class="article-title">El corazón de un camarón está en su cabeza — y su sistema nervioso en su garganta</h3>
+        <p class="article-excerpt">La anatomía de los crustáceos es tan diferente a la nuestra que parece diseñada por un ingeniero alienígena.</p>
+        <div class="article-meta">4 min lectura · Naturaleza</div>
+      </div>
       <div class="article-card" data-num="01" onclick="openArticle('art_sol')">
         <span class="category-tag">Astronomía</span>
         <h3 class="article-title">El sonido del sol tarda 40 minutos en llegar al centro de la Tierra — y los científicos lo usan para predecir terremotos</h3>
@@ -877,6 +937,146 @@
 <script>
 // Sample article content
 const articles = {
+   art_flamencos: {
+    cat: 'Naturaleza',
+    title: 'Los flamencos no son rosas por naturaleza — nacen blancos y se tiñen con lo que comen',
+    lede: 'Sin carotenoides en su dieta, un flamenco adulto se volvería completamente blanco en pocos meses.',
+    body: `
+      <p>Los flamencos recién nacidos son blancos o gris pálido. El color rosa que los hace inconfundibles no está en sus genes — está en su comida. Las algas y crustáceos que consumen contienen pigmentos llamados carotenoides que, al metabolizarse, tiñen las plumas de ese rosa característico. Sin esa dieta específica, el color desaparece.</p>
+      <h2>Una dieta que es también un código de salud</h2>
+      <p>La intensidad del color rosa de un flamenco es un indicador directo de su salud y acceso a recursos. Los ejemplares más brillantes tienen acceso a las mejores zonas de alimentación y son los más codiciados como pareja. En los zoos, los cuidadores añaden carotenoides sintéticos a la comida para mantener el color — sin ese suplemento, los flamencos cautivos se volverían blancos en meses.</p>
+      <blockquote>El color de un flamenco es literalmente lo que ha comido. Es el único animal cuyo aspecto físico cambia completamente según su dieta.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Los flamencos se alimentan con la cabeza boca abajo y al revés. Su pico está diseñado para funcionar en esa posición, filtrando el agua con una estructura similar a las barbas de las ballenas.</p></div>
+      <h2>Por qué son rosas y no naranjas</h2>
+      <p>Los carotenoides también dan color a las zanahorias, los tomates y los cangrejos cocidos. En los flamencos, el metabolismo transforma esos pigmentos específicamente en rosa. Es el mismo proceso que hace que los salmones sean naranjas — también se tiñen con lo que comen. La naturaleza, una vez más, es más química que magia.</p>
+    `
+  },
+  art_venus: {
+    cat: 'Espacio',
+    title: 'Un día en Venus dura más que un año en Venus — y además gira al revés',
+    lede: 'Venus tarda 243 días terrestres en rotar sobre sí mismo pero solo 225 en orbitar el Sol. Las matemáticas del cosmos no piden permiso.',
+    body: `
+      <p>En Venus, si pudieras sobrevivir a los 465 grados de temperatura y a la presión atmosférica equivalente a estar a 900 metros bajo el mar, verías algo imposible: el Sol saliendo por el oeste y poniéndose por el este. Venus gira en sentido contrario al resto de planetas del sistema solar, y lo hace tan despacio que un día venusiano dura más que su propio año.</p>
+      <h2>Las matemáticas del absurdo</h2>
+      <p>Venus tarda 243 días terrestres en completar una rotación completa sobre su eje. Pero solo necesita 225 días terrestres para orbitar el Sol. Esto significa que en Venus el año termina antes de que acabe el día. Si nacieras en Venus al amanecer, morirías de vejez antes de ver el siguiente amanecer — aunque vivieras un año venusiano completo.</p>
+      <blockquote>Venus es el planeta más caliente del sistema solar, no Mercurio. Su densa atmósfera atrapa el calor como el peor invernadero imaginable.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>A pesar de sus condiciones infernales en superficie, la atmósfera de Venus a 50 km de altura tiene temperatura y presión similares a la Tierra. Es la zona más "habitable" del sistema solar fuera de nuestro planeta.</p></div>
+      <h2>Por qué gira al revés</h2>
+      <p>Los científicos creen que Venus sufrió un impacto masivo en sus primeros tiempos que literalmente volcó su eje de rotación. Otra teoría apunta a que las mareas gravitacionales del Sol y su densa atmósfera frenaron y revirtieron gradualmente su rotación a lo largo de miles de millones de años. El sistema solar, en sus inicios, fue un lugar violento y caótico.</p>
+    `
+  },
+  art_hormigas: {
+    cat: 'Naturaleza',
+    title: 'Las hormigas llevan 130 millones de años practicando la agricultura — 65 millones antes que los humanos',
+    lede: 'Cultivan hongos, los abonan, los riegan y los protegen de plagas con antibióticos naturales.',
+    body: `
+      <p>Cuando los humanos "inventamos" la agricultura hace unos 10.000 años, las hormigas cortadoras de hojas llevaban 130 millones de años perfeccionando sus técnicas de cultivo. No es una metáfora: estas hormigas construyen jardines de hongos subterráneos, los fertilizan con hojas trituradas, los riegan con saliva y los protegen de hongos parásitos con bacterias antibióticas que producen en su propio cuerpo.</p>
+      <h2>Un sistema agrícola más sofisticado que el nuestro</h2>
+      <p>Las hormigas cortadoras de hojas no comen las hojas que recolectan — las usan como abono para sus cultivos de hongos. Han desarrollado una relación simbiótica tan estrecha con esos hongos que las especies cultivadas ya no pueden sobrevivir fuera de los jardines de las hormigas. Y las hormigas tampoco pueden vivir sin sus cultivos. Es agricultura mutualista llevada al extremo.</p>
+      <blockquote>Las hormigas cortadoras de hojas son los segundos herbívoros más importantes de América del Sur, después del ganado bovino. Sus colonias pueden llegar a 8 millones de individuos.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Las hormigas han desarrollado también ganadería: "ordeñan" pulgones, protegiéndolos de depredadores a cambio de la melaza azucarada que secretan. Llevan haciendo esto 50 millones de años.</p></div>
+      <h2>Lo que nos dice sobre la inteligencia colectiva</h2>
+      <p>Ninguna hormiga individual entiende el sistema completo. Cada una sigue reglas simples, pero el resultado colectivo es una civilización agrícola funcional. Es inteligencia emergente — algo mayor que la suma de sus partes. Los investigadores de inteligencia artificial estudian las colonias de hormigas para diseñar algoritmos de optimización. La naturaleza, como siempre, llegó primero.</p>
+    `
+  },
+  art_zombie: {
+    cat: 'Biología',
+    title: 'Existe un hongo que infecta hormigas, controla su cerebro y las convierte en zombis para reproducirse',
+    lede: 'Ophiocordyceps unilateralis manipula el sistema nervioso de su huésped con una precisión quirúrgica.',
+    body: `
+      <p>En las selvas tropicales de todo el mundo existe un hongo llamado Ophiocordyceps unilateralis que ha desarrollado una estrategia de reproducción tan sofisticada que parece sacada de una película de terror. Infecta hormigas carpinteras, toma el control de su sistema nervioso y las programa para que realicen una secuencia de comportamientos específicos que maximizan la dispersión de sus esporas.</p>
+      <h2>El protocolo zombi</h2>
+      <p>Una vez infectada, la hormiga abandona su colonia, trepa exactamente 25 centímetros por el tallo de una planta, busca el lado norte de una hoja que esté a exactamente la temperatura y humedad óptimas para el hongo, clava sus mandíbulas en la vena central de esa hoja en un ángulo preciso y muere. El hongo entonces brota de su cabeza y libera esporas sobre las hormigas que pasan por debajo.</p>
+      <blockquote>El hongo no controla el cerebro de la hormiga — lo rodea y lo evita. Controla directamente los músculos con señales químicas.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Las colonias de hormigas han desarrollado un comportamiento defensivo: cuando detectan una hormiga infectada, la llevan lejos de la colonia antes de que muera. Es una cuarentena instintiva con millones de años de antigüedad.</p></div>
+      <h2>Lo que esto implica para la neurociencia</h2>
+      <p>Ophiocordyceps produce compuestos químicos que interfieren directamente con el sistema nervioso del huésped. Algunos de estos compuestos son similares a neurotransmisores humanos. Los investigadores farmacéuticos estudian estas moléculas con interés: un hongo que puede controlar un sistema nervioso con tanta precisión podría inspirar nuevos tratamientos para enfermedades neurológicas.</p>
+    `
+  },
+  art_agua: {
+    cat: 'Física',
+    title: 'El agua caliente se congela más rápido que el agua fría — y nadie sabe exactamente por qué',
+    lede: 'El efecto Mpemba lleva desconcertando a los científicos desde que Aristóteles lo describió hace 2.300 años.',
+    body: `
+      <p>En 1963, un estudiante de Tanzania llamado Erasto Mpemba estaba haciendo helados en clase cuando notó algo extraño: la mezcla caliente se congelaba antes que la fría. Su profesor le dijo que estaba equivocado. Mpemba insistió, y años después convenció a un físico de la Universidad de Dar es Salaam para que lo investigara. El resultado confirmó lo que Aristóteles ya había descrito 2.300 años antes: bajo ciertas condiciones, el agua caliente se congela más rápido que la fría.</p>
+      <h2>Un misterio sin resolver</h2>
+      <p>Lo desconcertante no es el fenómeno en sí — es que nadie ha podido explicarlo completamente. Se han propuesto docenas de teorías: evaporación, convección, gases disueltos, estructura molecular del agua, efecto de las paredes del recipiente. Cada teoría explica algunos casos pero no todos. En 2016, un estudio publicado en Nature intentó resolverlo definitivamente. No lo consiguió.</p>
+      <blockquote>El efecto Mpemba es uno de los pocos fenómenos físicos cotidianos para los que no tenemos una explicación científica satisfactoria.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>El efecto no ocurre siempre — depende de las condiciones exactas del experimento. Esto es parte de lo que lo hace tan difícil de estudiar: a veces el agua caliente se congela antes, a veces no.</p></div>
+      <h2>Por qué importa</h2>
+      <p>El agua es la molécula más estudiada de la historia de la ciencia y todavía nos sorprende. Tiene más anomalías físicas que cualquier otra sustancia conocida: se expande al congelarse, tiene una tensión superficial extraordinariamente alta, y ahora esto. Entender el efecto Mpemba podría revelar aspectos de la estructura del agua que todavía desconocemos.</p>
+    `
+  },
+  art_cocodrilos: {
+    cat: 'Naturaleza',
+    title: 'Los cocodrilos son prácticamente idénticos a como eran hace 200 millones de años — sobrevivieron a los dinosaurios',
+    lede: 'Mientras el 75% de las especies se extinguía, los cocodrilos apenas cambiaron una escama.',
+    body: `
+      <p>Hace 66 millones de años, un asteroide de 10 km de diámetro impactó en lo que hoy es México, desencadenando una extinción masiva que eliminó al 75% de todas las especies del planeta, incluidos todos los dinosaurios no aviares. Los cocodrilos lo sobrevivieron prácticamente sin cambios. Y no era la primera vez: llevan en la Tierra desde hace 240 millones de años, habiendo sobrevivido ya a otras tres extinciones masivas anteriores.</p>
+      <h2>El diseño perfecto</h2>
+      <p>Los cocodrilos no han cambiado porque no han necesitado hacerlo. Su diseño es tan eficiente que la evolución apenas ha tenido nada que mejorar. Son capaces de reducir su metabolismo hasta casi cero durante meses, permitiéndoles sobrevivir sin comer durante un año entero. Pueden quedarse sin respirar durante más de una hora. Su sistema inmunológico es tan potente que pueden sobrevivir infecciones que matarían a cualquier otro vertebrado.</p>
+      <blockquote>Un cocodrilo moderno es esencialmente el mismo animal que caminó junto a los dinosaurios. Es un fósil viviente con dientes.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Los cocodrilos tienen el mordisco más poderoso de cualquier animal vivo — hasta 1.700 kg de fuerza. Sin embargo, los músculos que abren la mandíbula son tan débiles que un humano puede mantenerla cerrada con las manos.</p></div>
+      <h2>Lo que nos enseñan sobre la evolución</h2>
+      <p>La supervivencia de los cocodrilos desafía la idea de que la evolución siempre avanza hacia formas más complejas. A veces la solución óptima se encuentra pronto y no hay presión para cambiar. Los cocodrilos son la prueba de que "primitivo" no significa inferior — significa que lo hicieron bien a la primera.</p>
+    `
+  },
+  art_adn: {
+    cat: 'Biología',
+    title: 'Tu ADN es un 60% idéntico al de un plátano — y un 98,7% al de un chimpancé',
+    lede: 'Los genes básicos para la vida celular son tan antiguos que los compartimos con casi cualquier ser vivo del planeta.',
+    body: `
+      <p>El 60% de tus genes tienen un equivalente funcional en el plátano. No significa que seas un 60% plátano — significa que los mecanismos básicos de la vida celular son tan antiguos y fundamentales que se han conservado durante 1.500 millones de años de evolución separada. Los genes que regulan el ciclo celular, la reparación del ADN o la producción de energía son básicamente los mismos en todos los organismos eucariotas.</p>
+      <h2>La biblioteca compartida de la vida</h2>
+      <p>Compartimos el 85% del ADN con un ratón, el 90% con un gato, el 96% con un gorila y el 98,7% con un chimpancé. Esas diferencias porcentuales parecen pequeñas, pero representan millones de variaciones en 3.000 millones de pares de bases. El 1,3% que nos diferencia de los chimpancés incluye los genes responsables del lenguaje, la cognición abstracta y la bipedestación.</p>
+      <blockquote>No somos especiales por ser diferentes a los demás seres vivos. Somos especiales precisamente porque compartimos con ellos los fundamentos de la vida.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Dos humanos cualesquiera del planeta comparten el 99,9% de su ADN. Toda la diversidad humana visible — color de piel, altura, rasgos faciales — está codificada en ese 0,1% de diferencia.</p></div>
+      <h2>Lo que esto cambia</h2>
+      <p>Entender que compartimos genes fundamentales con prácticamente todos los seres vivos ha revolucionado la medicina. Los genes que causan cáncer en humanos tienen equivalentes en moscas de la fruta. Los mecanismos del envejecimiento se estudian en gusanos. Los tratamientos para enfermedades neurológicas se prueban en ratones. Somos, literalmente, variaciones sobre un mismo tema.</p>
+    `
+  },
+  art_muralla: {
+    cat: 'Historia',
+    title: 'La Gran Muralla China no se ve desde el espacio — es un mito que llevan décadas repitiendo en los libros',
+    lede: 'Los propios astronautas chinos lo confirmaron: desde la órbita es imposible distinguirla a simple vista.',
+    body: `
+      <p>Durante décadas, libros de texto de todo el mundo han afirmado que la Gran Muralla China es la única obra humana visible desde el espacio. Es mentira. La muralla tiene entre 4 y 9 metros de ancho — aproximadamente lo mismo que una autopista de dos carriles. Desde la órbita terrestre baja, a unos 400 km de altura, distinguir algo de ese ancho a simple vista es físicamente imposible.</p>
+      <h2>Cómo nació el mito</h2>
+      <p>La afirmación aparece por escrito por primera vez en 1932, en una publicación llamada Ripley's Believe It or Not, décadas antes de que ningún humano hubiera estado en el espacio. Se repitió sin verificación en enciclopedias, libros de texto y documentales hasta convertirse en "conocimiento común". Cuando los primeros astronautas llegaron al espacio, nadie se molestó en comprobarla.</p>
+      <blockquote>El astronauta chino Yang Liwei, primer ciudadano chino en el espacio en 2003, confirmó que no podía ver la muralla. Fue un momento de vergüenza nacional.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>Lo que sí se puede ver desde el espacio son las ciudades iluminadas de noche, los grandes embalses, los invernaderos de Almería — que forman la mayor superficie reflectante artificial de Europa — y los incendios forestales.</p></div>
+      <h2>Por qué importa desmentir mitos</h2>
+      <p>La Gran Muralla china es una obra de ingeniería extraordinaria que no necesita exageraciones para impresionar. Tiene más de 21.000 km de longitud, tardó siglos en construirse y costó la vida a cientos de miles de trabajadores. El mito del espacio no solo es falso — eclipsa la historia real, que es mucho más fascinante.</p>
+    `
+  },
+  art_idioma: {
+    cat: 'Historia',
+    title: 'El idioma más antiguo del mundo que todavía se habla tiene más de 5.000 años de historia continua',
+    lede: 'El tamil se habla hoy prácticamente igual que en inscripciones del año 3.000 a.C. Una continuidad lingüística sin igual en la historia humana.',
+    body: `
+      <p>El tamil, hablado hoy por más de 80 millones de personas en el sur de India y Sri Lanka, tiene inscripciones datadas alrededor del año 3.000 a.C. Lo extraordinario no es solo su antigüedad — es su continuidad. Un hablante moderno de tamil puede leer textos de hace 2.000 años con una dificultad similar a la que tiene un hispanohablante actual leyendo el Quijote. Ninguna otra lengua viva puede decir lo mismo.</p>
+      <h2>Una literatura ininterrumpida</h2>
+      <p>El Sangam, la literatura clásica tamil, data de entre el 300 a.C. y el 300 d.C. Son poemas de amor, guerra y naturaleza escritos con una sofisticación literaria que rivaliza con cualquier tradición clásica del mundo. Mientras la mayoría de lenguas antiguas — el latín, el sánscrito, el griego clásico — se convirtieron en lenguas muertas o evolucionaron hasta ser irreconocibles, el tamil mantuvo una continuidad estructural sin precedentes.</p>
+      <blockquote>El tamil es a la lingüística lo que los cocodrilos son a la zoología: un superviviente que no necesitó cambiar porque lo hizo bien desde el principio.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>El tamil tiene su propio Día de Año Nuevo, su propio calendario de 60 años cíclicos y una tradición matemática independiente que desarrolló el concepto de cero de forma paralela a la tradición india del norte.</p></div>
+      <h2>Por qué sobrevivió</h2>
+      <p>Los lingüistas atribuyen la supervivencia del tamil a una combinación de factores: una rica tradición literaria que creó prestigio cultural, una comunidad cohesionada con fuerte identidad étnica, y el hecho de que la región donde se habla nunca fue completamente conquistada por culturas que impusieran su lengua. El tamil es, en ese sentido, también un testimonio de resistencia cultural.</p>
+    `
+  },
+  art_camaron: {
+    cat: 'Naturaleza',
+    title: 'El corazón de un camarón está en su cabeza — y su sistema nervioso en su garganta',
+    lede: 'La anatomía de los crustáceos es tan diferente a la nuestra que parece diseñada por un ingeniero alienígena.',
+    body: `
+      <p>Cuando comes gambas o camarones, estás comiendo la cabeza. O más precisamente: la parte que llamamos "cabeza" en los crustáceos contiene la mayor parte de sus órganos vitales, incluido el corazón. En los camarones, el corazón está situado en el cefalotórax — la parte frontal del cuerpo — justo detrás de los ojos. Lo que coloquialmente llamamos "cola" es casi todo músculo, que es exactamente la razón por la que es la parte más sabrosa.</p>
+      <h2>Una arquitectura corporal inversa</h2>
+      <p>Los crustáceos son artrópodos, y su plan corporal es radicalmente diferente al de los vertebrados. Su sistema nervioso central no está en la cabeza sino distribuido en ganglios a lo largo del cuerpo, con una concentración importante en la región de la garganta. Su sangre no es roja sino azul, como la de los pulpos, porque también usa hemocianina con cobre en lugar de hemoglobina con hierro.</p>
+      <blockquote>Los camarones ven con ojos compuestos que pueden detectar 16 tipos diferentes de receptores de color. Los humanos tenemos 3. Ven colores que ni siquiera podemos imaginar.</blockquote>
+      <div class="fact-box"><h3>¿Sabías que?</h3><p>El camarón pistola puede cerrar su pinza tan rápido que genera una burbuja de cavitación que colapsa a 4.700 grados — casi tan caliente como la superficie del Sol — y mata a sus presas con la onda de choque.</p></div>
+      <h2>Por qué la evolución produjo diseños tan diferentes</h2>
+      <p>Vertebrados y artrópodos llevan más de 500 millones de años evolucionando por separado desde un ancestro común. En ese tiempo, cada linaje desarrolló soluciones independientes a los mismos problemas: cómo bombear sangre, cómo procesar información nerviosa, cómo moverse. El resultado son dos arquitecturas corporales completamente diferentes que funcionan igual de bien. La evolución no tiene un único camino correcto.</p>
+    `
+  },
   art_sol: {
     cat: 'Astronomía',
     title: 'El sonido del Sol tarda 40 minutos en llegar al centro de la Tierra',
